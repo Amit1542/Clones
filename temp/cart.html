@@ -1,0 +1,100 @@
+{% extends 'layout.html' %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+    {% block main %}
+    {% csrf_token %}
+    <main>
+
+        <div class="container mt-5 row  mx-auto">
+            <div class=" col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 ">
+                <div class="card h-100">
+
+                {% for product in products %} 
+              {% if product.productDetails_id == request.GET.variable %}
+                  <img
+                    src="../media/{{product.productDetails_image}}"
+                    class="card-img-top"
+                    alt="Product"
+                    width="10em"
+                    height="300em "
+                  />
+                  <div class="card-body text-center">
+                    <h3 class="card-title">{{product.productDetails_description}}</h3>
+                    <h3 class="card-title">{{product.productDetails_brand}}</h3>
+                        
+                  </div>
+              {% endif %} {% endfor %}
+              </div>
+            </div>
+            <div class="row justify-content-center col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6 ">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header py-3">
+                            <h2 class="text-center ">Shipping Details</h2>
+                        </div>
+                        <div class="card-body">
+                            <form action="./" method="post">
+                                <div class="form-group mb-2 mt-1">
+                                    <label for="name" class="form-label">Full Name:</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="form-group mb-2 ">
+                                    <label for="email" class="form-label">Email:</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="phn" class="form-label">Phone Number : </label>
+                                    <input type="number" class="form-control" id="phn" name="phn" required>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="address" class="form-label">Shipping Address : </label>
+                                    <textarea class="form-control" rows="5" id="address" name="address" required></textarea>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="remember"> Cash On Delivery
+                                    </label>
+                                </div>
+                                <div class="form-group mb-2 ">
+                                    <button type="submit" class="btn btn-primary btn-block" onclick="saveship()" >Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}
+    
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+        <script>
+            function saveship() {
+                alert('Your order has been placed successfully');
+            }
+        </script>
+</body>
+
+</html>

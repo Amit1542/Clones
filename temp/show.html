@@ -1,0 +1,121 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block main %}
+<section class="py-5" id="product-details">
+  {% for product in products %}
+  {% if product.productDetails_id == request.GET.variable %}
+  <div class="container px-4 px-lg-5 mb-5" >
+    <div class="row gx-4 gx-lg-5 align-items-center mb-5" >
+      <div class="col-sm-12 col-md-6 col-lg-6 col-lg-6">
+        <img class="mb-5 mb-md-5" src="../media/{{product.productDetails_image}}" alt="..." id="productDetails_image"
+          style="max-width: 20em" />
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 col-lg-6">
+        <h4 class="mb-1" id="productDetails_id">
+          Product Id : {{product.productDetails_id}}
+        </h4>
+        <h3 class="display-6 fw-bolder" id="productDetails_name">
+          {{product.productDetails_name}}
+        </h3>
+        <h4 class=" fw-bolder" id="productDetails_brand">
+          Brand : <span>{{product.productDetails_brand}}</span>
+        </h4>
+        <h3 class=" fw-bolder" id="productDetails_description">
+          {{product.productDetails_description}}
+        </h3>
+
+        <div class="fs-5 mb-5" id="productDetails_priceDiv">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+          <span id="productDetails_price">
+            {{product.productDetails_price}}
+          </span>
+
+        </div>
+        <div class="d-flex" id="productDetails_quantity">
+          <h5>
+            <pre>Quantity : </pre>
+          </h5>
+          <input class="form-control text-center" min="1" onkeypress="isValidPrise(event)" id="inputQuantity" type="number" value="1"
+            style="width: 5em" />
+        </div>
+        <br>
+        {% if product.productDetails_stock > 0 %}
+        <h5 class="text-success">In Stock</h5>
+        <a href="./cart?variable={{product.productDetails_id}}">
+          <button class="btn btn-dark flex-shrink-0" type="button" onclick="addToCart('{{product.productDetails_id}}')">
+            
+            Buy now
+          </button></a>
+        {% else %}
+        <button class="btn btn-dark flex-shrink-0" type="button" onclick="addToCart('{{product.productDetails_id}}')"
+          disabled>
+          
+          Out Of Stock
+        </button>
+        {% endif %}
+      </div>
+    </div>
+    <div class="container mt-5 px-0 card ">
+      <h3 class="card-header">Related Products</h3>
+      <div class="card-body row">
+        {% for relate in products %}
+        {% if relate.productDetails_category == product.productDetails_category %}
+        <div class="col-sm-4 col-md-4 col-lg-3 col-xl-3">
+          <div class="card h-100">
+            <img src="../media/{{relate.productDetails_image}}" class="card-img-top" alt="Product" width="100em"
+              height="250em " />
+            <div class="card-body text-center">
+              <h5 class="card-title">{{relate.productDetails_name}}</h5>
+              <p class="card-text d-inlineblock">
+                <b>Starts </b><small><i
+                    class="fa-solid fa-indian-rupee-sign"></i>{{relate.productDetails_price}}</small>
+              </p>
+              <a href="./show?variable={{relate.productDetails_id}}" class="btn btn-dark"
+                id="{{relate.productDetails_id}}">Buy now</a>
+            </div>
+          </div>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}{% endfor %}
+</section>
+{% endblock main %}
+
+<!-- Bootstrap core JS-->
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Core theme JS-->
+<script src="{% script 'js/index.js' }"></script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', () => {
+  let price = +(document.getElementById('productDetails_price').textContent);
+
+  document.getElementById('inputQuantity').addEventListener('input', (event) => {
+    if (+(event.target.value) < 1) {
+      return false;
+    }
+    document.getElementById('productDetails_price').textContent = price * +(event.target.value);
+  });
+});
+
+  const isValidPrice = (event) => {
+    if (+(event.target.value) < 1) {
+      return false
+    }
+    return true
+  }
+
+  function quant(){
+  var quantity= +(document.getElementById('inputQuantity').textContent);   
+  return quantity
+  }
+
+</script>
+
+{% endblock script %}
