@@ -1,2 +1,2 @@
 # Clones
- hello
+ hello,this is my first mini-project amazon clone
